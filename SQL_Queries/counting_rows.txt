@@ -1,0 +1,31 @@
+SELECT
+  all_rows.all_rows_count,
+  null_rows.null_rows_count,
+  ROUND(null_rows.null_rows_count/all_rows.all_rows_count, 2) AS null_fraction
+  FROM
+    (
+      SELECT
+        COUNT(ride_id) AS all_rows_count
+      FROM
+        `bike-study-449121.cyclistic_bike_trips.trips_##-24`
+    ) AS all_rows,
+    (
+      SELECT
+        COUNT(ride_id) AS null_rows_count
+      FROM
+        `bike-study-449121.cyclistic_bike_trips.trips_##-24`
+      WHERE
+        ride_id IS NULL or
+        rideable_type IS NULL or
+        started_at IS NULL or
+        ended_at IS NULL or
+        start_station_name IS NULL or
+        start_station_id IS NULL or
+        end_station_name IS NULL or
+        end_station_id IS NULL or
+        start_lat IS NULL or
+        start_lng IS NULL or
+        end_lat IS NULL or
+        end_lng IS NULL or
+        member_casual IS NULL
+    ) AS null_rows;

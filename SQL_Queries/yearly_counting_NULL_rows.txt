@@ -1,0 +1,119 @@
+SELECT
+  ride_id_nulls.ride_id_null_count,
+  rideable_type_nulls.rideable_type_null_count,
+  started_at_nulls.started_at_null_count,
+  ended_at_nulls.ended_at_null_count,
+  start_station_name_nulls.start_station_name_null_count,
+  start_station_id_nulls.start_station_id_null_count,
+  end_station_name_nulls.end_station_name_null_count,
+  end_station_id_nulls.end_station_id_null_count,
+  start_lat_nulls.start_lat_null_count,
+  start_lng_nulls.start_lng_null_count,
+  end_lat_nulls.end_lat_null_count,
+  end_lng_nulls.end_lng_null_count,
+  member_casual_nulls.member_casual_null_count
+FROM
+  (
+    SELECT
+      COUNT(*) AS ride_id_null_count
+    FROM
+      year_trips_2024
+    WHERE
+      ride_id IS NULL
+  ) AS ride_id_nulls,
+  (
+    SELECT
+      COUNT(*) AS rideable_type_null_count
+    FROM
+      year_trips_2024
+    WHERE
+      rideable_type IS NULL
+  ) AS rideable_type_nulls,
+  (
+    SELECT
+      COUNT(*) AS started_at_null_count
+    FROM
+      year_trips_2024
+    WHERE
+      started_at IS NULL
+  ) AS started_at_nulls,
+  (
+    SELECT
+      COUNT(*) AS ended_at_null_count
+    FROM
+      year_trips_2024
+    WHERE
+      ended_at IS NULL
+  ) AS ended_at_nulls,
+  (
+    SELECT
+      COUNT(*) AS start_station_name_null_count
+    FROM
+      year_trips_2024
+    WHERE
+      start_station_name IS NULL
+  ) AS start_station_name_nulls,
+  (
+    SELECT
+      COUNT(*) AS start_station_id_null_count
+    FROM
+      year_trips_2024
+    WHERE
+      start_station_id IS NULL
+  ) AS start_station_id_nulls,
+  (
+    SELECT
+      COUNT(*) AS end_station_name_null_count
+    FROM
+      year_trips_2024
+    WHERE
+      end_station_name IS NULL
+  ) AS end_station_name_nulls,
+  (
+    SELECT
+      COUNT(*) AS end_station_id_null_count
+    FROM
+      year_trips_2024
+    WHERE
+      end_station_id IS NULL
+  ) AS end_station_id_nulls,
+  (
+    SELECT
+      COUNT(*) AS start_lat_null_count
+    FROM
+      year_trips_2024
+    WHERE
+      start_lat IS NULL
+  ) AS start_lat_nulls,
+  (
+    SELECT
+      COUNT(*) AS start_lng_null_count
+    FROM
+      year_trips_2024
+    WHERE
+      start_lng IS NULL
+  ) AS start_lng_nulls,
+  (
+    SELECT
+      COUNT(*) AS end_lat_null_count
+    FROM
+      year_trips_2024
+    WHERE
+      end_lat IS NULL
+  ) AS end_lat_nulls,
+  (
+    SELECT
+      COUNT(*) AS end_lng_null_count
+    FROM
+      year_trips_2024
+    WHERE
+      end_lng IS NULL
+  ) AS end_lng_nulls,
+  (
+    SELECT
+      COUNT(*) AS member_casual_null_count
+    FROM
+      year_trips_2024
+    WHERE
+      member_casual IS NULL
+  ) AS member_casual_nulls;

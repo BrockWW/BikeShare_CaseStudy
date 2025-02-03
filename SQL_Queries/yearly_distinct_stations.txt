@@ -1,0 +1,8 @@
+SELECT
+  DISTINCT TRIM(LOWER([start/end]_station_name)) AS unique_stations
+FROM
+  year_trips_2024
+WHERE
+  TRIM(LOWER([start/end]_station_name)) IS NOT NULL
+ORDER BY
+  unique_stations ASC;

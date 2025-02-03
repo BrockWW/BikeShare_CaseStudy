@@ -1,0 +1,90 @@
+WITH
+  year_trips_2024
+AS
+(
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_01-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_02-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_03-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_04-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_05-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_06-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_07-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_08-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_09-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_10-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_11-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_12-24`
+  )
+)
+
+Additional Query;

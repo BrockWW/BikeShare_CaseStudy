@@ -1,0 +1,18 @@
+SELECT
+  *
+FROM
+  `bike-study-449121.cyclistic_bike_trips.trips_##-24`
+WHERE
+  ride_id IS NULL or
+  rideable_type IS NULL or
+  started_at IS NULL or
+  ended_at IS NULL or
+  start_station_name IS NULL or
+  start_station_id IS NULL or
+  end_station_name IS NULL or
+  end_station_id IS NULL or
+  start_lat IS NULL or
+  start_lng IS NULL or
+  end_lat IS NULL or
+  end_lng IS NULL or
+  member_casual IS NULL;

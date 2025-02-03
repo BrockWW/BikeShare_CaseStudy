@@ -1,0 +1,19 @@
+SELECT
+  DISTINCT TRIM(LOWER(ride_id)) AS ride_id,
+  started_at AS start_time,
+  ended_at AS end_time,
+  DATETIME_DIFF(ended_at, started_at, SECOND) AS ride_length_s,
+  FORMAT_DATE('%A', DATE(started_at)) AS day_of_week,
+  FORMAT_DATE('%u', DATE(started_at)) AS day_of_week_val,
+  FORMAT_DATE('%B', DATE(started_at)) AS month,
+  TRIM(member_casual) AS member_casual
+FROM
+  year_trips_2024
+WHERE
+  TRIM(LOWER(ride_id)) IS NOT NULL AND
+  started_at IS NOT NULL AND
+  ended_at IS NOT NULL AND
+  TRIM(member_casual) IS NOT NULL AND
+  DATETIME_DIFF(ended_at, started_at, SECOND) >= 1
+ORDER BY
+  ride_length_s ASC;

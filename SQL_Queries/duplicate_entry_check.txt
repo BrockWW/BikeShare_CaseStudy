@@ -1,0 +1,5 @@
+SELECT
+  COUNT(ride_id) AS total_num_id,
+  COUNT(DISTINCT ride_id) AS unique_num_id
+FROM
+  `bike-study-449121.cyclistic_bike_trips.trips_##-24`;

@@ -1,0 +1,80 @@
+SELECT
+  member_casual,
+  month,
+  started_at,
+  ended_at,
+  ride_length_s,
+  CONCAT(new_hours,":",new_minutes,":",new_seconds) AS `ride_length_hh:mm:ss`
+FROM
+  (
+    SELECT
+      member_casual,
+      month,
+      started_at,
+      ended_at,
+      ride_length_s,
+      hours,
+      minutes,
+      seconds,
+      CASE
+        WHEN
+          LENGTH(formated_time.hours) = 1
+        THEN
+          CONCAT("0",formated_time.hours)
+        ELSE
+          formated_time.hours
+      END AS new_hours,
+      CASE
+        WHEN
+          LENGTH(formated_time.minutes) = 1
+        THEN
+          CONCAT("0",formated_time.minutes)
+        ELSE
+          formated_time.minutes
+      END AS new_minutes,
+      CASE
+        WHEN
+          LENGTH(formated_time.seconds) = 1
+        THEN
+          CONCAT("0",formated_time.seconds)
+        ELSE
+          formated_time.seconds
+      END AS new_seconds
+    FROM
+      (
+        SELECT
+          member_casual,
+          FORMAT_DATE('%B', DATE(started_at)) AS month,
+          started_at,
+          ended_at,
+          DATETIME_DIFF(ended_at, started_at, SECOND) AS ride_length_s,
+
+
+          CAST((DATETIME_DIFF(ended_at, started_at, SECOND)-MOD(DATETIME_DIFF(ended_at, started_at, SECOND),3600))/3600 AS STRING) AS hours,
+
+
+          CAST((DATETIME_DIFF(ended_at, started_at, SECOND)-(DATETIME_DIFF(ended_at, started_at, SECOND)-MOD(DATETIME_DIFF(ended_at, started_at, SECOND),3600))-MOD(MOD(DATETIME_DIFF(ended_at, started_at, SECOND),3600),60))/60 AS STRING) AS minutes,
+
+
+          CAST(MOD(MOD(DATETIME_DIFF(ended_at, started_at, SECOND),3600),60) AS STRING) AS seconds,
+
+
+          CONCAT(
+                CAST((DATETIME_DIFF(ended_at, started_at, SECOND)-MOD(DATETIME_DIFF(ended_at, started_at, SECOND),3600))/3600 AS STRING),
+                ":",
+                CAST((DATETIME_DIFF(ended_at, started_at, SECOND)-(DATETIME_DIFF(ended_at, started_at, SECOND)-MOD(DATETIME_DIFF(ended_at, started_at, SECOND),3600))-MOD(MOD(DATETIME_DIFF(ended_at, started_at, SECOND),3600),60))/60 AS STRING),
+                ":",
+                CAST(MOD(MOD(DATETIME_DIFF(ended_at, started_at, SECOND),3600),60) AS STRING)
+                ) AS `hh:mm:ss`
+        FROM
+          `bike-study-449121.cyclistic_bike_trips.trips_06-24`
+        WHERE
+          TRIM(LOWER(ride_id)) IS NOT NULL AND
+          started_at IS NOT NULL AND
+          ended_at IS NOT NULL AND
+          TRIM(member_casual) IS NOT NULL AND
+          DATETIME_DIFF(ended_at, started_at, SECOND) >= 1
+      ) AS formated_time
+  ) AS fixed_time_table
+ORDER BY
+  month DESC;

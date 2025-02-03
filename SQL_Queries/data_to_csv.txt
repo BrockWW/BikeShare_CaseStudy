@@ -1,0 +1,109 @@
+WITH
+  year_trips_2024
+AS
+(
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_01-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_02-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_03-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_04-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_05-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_06-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_07-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_08-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_09-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_10-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_11-24`
+  )
+  UNION ALL
+  (
+    SELECT
+      *
+    FROM
+      `bike-study-449121.cyclistic_bike_trips.trips_12-24`
+  )
+)
+
+
+SELECT
+  DISTINCT TRIM(LOWER(ride_id)) AS ride_id,
+  rideable_type AS bike_type,
+  started_at AS start_time,
+  ended_at AS end_time,
+  FORMAT_DATE('%B', DATE(started_at)) AS month,
+  FORMAT_DATE('%A', DATE(started_at)) AS day_of_week,
+  TRIM(member_casual) AS member_casual,
+  DATETIME_DIFF(ended_at, started_at, SECOND) AS ride_length_s,
+FROM
+  year_trips_2024
+WHERE
+  TRIM(LOWER(ride_id)) IS NOT NULL AND
+  started_at IS NOT NULL AND
+  ended_at IS NOT NULL AND
+  TRIM(member_casual) IS NOT NULL AND
+  DATETIME_DIFF(ended_at, started_at, SECOND) >= 1
+ORDER BY
+  start_time ASC;

@@ -1,0 +1,27 @@
+SELECT
+  member_casual,
+  # min trip time
+  ROUND(MIN(DATETIME_DIFF(ended_at, started_at, SECOND)),3) AS min_ride_length_s,
+  CAST(RIGHT(CAST(DATETIME_ADD(DATETIME "2000-01-01 00:00:00", INTERVAL CAST(ROUND(MIN(DATETIME_DIFF(ended_at, started_at, SECOND)),0) AS INT64) SECOND) AS STRING), 8) AS time) AS `min_ride_length_hh:mm:ss`,
+  # median trip time
+  ROUND(APPROX_QUANTILES(DATETIME_DIFF(ended_at, started_at, SECOND), 100)[OFFSET(50)],3) AS med_ride_length_s,
+  CAST(RIGHT(CAST(DATETIME_ADD(DATETIME "2000-01-01 00:00:00", INTERVAL CAST(ROUND(APPROX_QUANTILES(DATETIME_DIFF(ended_at, started_at, SECOND), 100)[OFFSET(50)],0) AS INT64) SECOND) AS STRING), 8) AS time) AS `med_ride_length_hh:mm:ss`,
+  # average trip time
+  ROUND(AVG(DATETIME_DIFF(ended_at, started_at, SECOND)),3) AS avg_ride_length_s,
+  CAST(RIGHT(CAST(DATETIME_ADD(DATETIME "2000-01-01 00:00:00", INTERVAL CAST(ROUND(AVG(DATETIME_DIFF(ended_at, started_at, SECOND)),0) AS INT64) SECOND) AS STRING), 8) AS time) AS `avg_ride_length_hh:mm:ss`,
+  # standard deviation trip time
+  ROUND(STDDEV(DATETIME_DIFF(ended_at, started_at, SECOND)),3) AS std_ride_length_s,
+  CAST(RIGHT(CAST(DATETIME_ADD(DATETIME "2000-01-01 00:00:00", INTERVAL CAST(ROUND(STDDEV(DATETIME_DIFF(ended_at, started_at, SECOND)),0) AS INT64) SECOND) AS STRING), 8) AS time) AS `std_ride_length_hh:mm:ss`,
+  # max trip time
+  ROUND(MAX(DATETIME_DIFF(ended_at, started_at, SECOND)),3) AS max_ride_length_s,
+  CAST(RIGHT(CAST(DATETIME_ADD(DATETIME "2000-01-01 00:00:00", INTERVAL CAST(ROUND(MAX(DATETIME_DIFF(ended_at, started_at, SECOND)),0) AS INT64) SECOND) AS STRING), 8) AS time) AS `max_ride_length_hh:mm:ss`
+FROM
+  year_trips_2024
+WHERE
+  TRIM(LOWER(ride_id)) IS NOT NULL AND
+  started_at IS NOT NULL AND
+  ended_at IS NOT NULL AND
+  TRIM(member_casual) IS NOT NULL AND
+  DATETIME_DIFF(ended_at, started_at, SECOND) >= 1
+GROUP BY
+  member_casual;
